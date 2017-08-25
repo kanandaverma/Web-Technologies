@@ -1,0 +1,168 @@
+<html>
+    <head>
+    </head>
+    <body style="text-align:center; font-weight:bold"><br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        Enter URL for Airlines List XML File
+        <form name="myform" method="POST" id="location">
+            <br>
+            <input type="text" name="URL" maxlength="255" height="300" width="400"/><br />
+            <br><input type="submit" value="Submit Query" onClick="viewXML(this.form)" target="_blank" tabindex="-1"/>
+</form>
+    </body>
+    <script type="text/javascript">
+        
+        var xmlDoc;
+        function viewXML(what)
+        {   var URL = what.URL.value.trim();
+            function loadXML(url) {
+            if (window.XMLHttpRequest)
+                {
+                    xmlhttp=new XMLHttpRequest();
+                }
+            else{
+                    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            xmlhttp.open("GET",url,false); //open, send, responseXML are
+            try{
+                 xmlhttp.send(); //properties of XMLHTTPRequest
+                xmlDoc=xmlhttp.responseXML;
+            }
+                catch(err){
+                    
+                    }
+           
+                if(xmlDoc==null)
+                    {
+                        alert('Enter a file!');
+                    }
+            return xmlDoc;
+        }
+            xmlDoc = loadXML(URL);
+            if (window.ActiveXObject) //if IE, simply execute script (due to async prop).
+            { if (xmlDoc.parseError.errorCode != 0)
+                {
+                    var myErr = xmlDoc.parseError;
+                    generateError(xmlDoc);
+                    hWin = window.open("", "Error", "height=300,width=340");
+                    hWin.document.write(html_text);
+                    } 
+               else { y=generateHTML(xmlDoc);
+                     if(y==0)
+                         {
+                             alert("Error in XML file!");
+                         }
+                     else{
+                          hWin = window.open("", "Assignment4", "height=800,width=600");
+                    hWin.document.write(html_text);
+                     }
+                   
+                    }
+             
+                    }
+            else //else if FF, execute script once XML object has loaded
+                    { 
+                        y=xmlDoc.onload=generateHTML(xmlDoc);
+                        if(y==0)
+                            {
+                                alert("Error in XML file!");
+                            }
+                    else{
+                        hWin = window.open("", "Assignment4", "height=800,width=600");
+                    hWin.document.write(html_text);
+                    }
+                    
+                    }
+         hWin.document.close();
+        }
+        
+// ....... processing the document goes here
+        
+        function generateHTML(xmlDoc)
+        {   ELEMENT_NODE = 1; // MS parser doesn't define Node.ELEMENT_NODE
+            root=xmlDoc.DocumentElement;
+            html_text="<html><head><title>XML Parse Result</title></head><body>";
+            html_text+="<table border='2'>";
+            planes=xmlDoc.getElementsByTagName("Data");
+            html_text+="<tbody>";
+            html_text+="<tr>";
+            for(i=0;i<planes.length;i++)
+            { if(planes.item(i).nodeType==ELEMENT_NODE)
+                { data=planes[i].childNodes[0].nodeValue.trim();
+                  html_text+="<th>"+data+"</th>"; 
+                }
+            }
+            x=250
+            y=200
+         
+            html_text+="</tr>";
+            p=xmlDoc.getElementsByTagName("Row");
+            if(p.length==0)
+                {
+                    return 0;
+                }
+            for(i=0;i<p.length;i++)
+                {
+                html_text+="<tr>";
+                air=xmlDoc.getElementsByTagName("Airline");
+                if(air.item(i).nodeType==ELEMENT_NODE)
+                {   data=air[i].childNodes[0].nodeValue.trim();
+                    html_text+="<td>"+data+"</td>"; 
+                    
+                }
+                
+                iat=xmlDoc.getElementsByTagName("IATA");
+                if(iat.item(i).nodeType==ELEMENT_NODE)
+                  {  it=iat[i].childNodes[0].nodeValue.trim();
+                    html_text+="<td>"+it+"</td>";
+                }
+                hub=xmlDoc.getElementsByTagName("Hubs");
+                    hu=hub[i].children;
+                    html_text+="<td><ul>";
+                    for(j=0;j<hu.length;j++)
+                        {
+                            h=hu[j].textContent.trim();
+                            if(j==0)
+                                {
+                                    html_text+="<li style='font-weight:bold'>"+h+"</li>"
+                                }
+                            else{
+                                 html_text+="<li>"+h+"</li>";
+                            }  
+                        }
+                    html_text+="</ul></td>"; 
+                no=xmlDoc.getElementsByTagName("Notes");
+                if(no.item(i).nodeType==ELEMENT_NODE)
+                   { n=no[i].textContent.trim();
+                    html_text+="<td>"+n+"</td>";
+                   }
+                home=xmlDoc.getElementsByTagName("HomePage");
+                if(home.item(i).nodeType==ELEMENT_NODE)
+                   { ho=home[i].textContent.trim();
+                    html_text+="<td><a href='"+ho+"'>"+ho+"</a></td>";
+                   }
+                im=xmlDoc.getElementsByTagName("Plane");
+                if(im.item(i).nodeType==ELEMENT_NODE)
+               {     im1=im[i].textContent;
+                    if(im1==null || im1.trim()==null)
+                        {
+                            html_text+="<td></td>";
+                        }
+                    else{
+                        html_text+="<td><img src='"+im1+"'width='"+x+"'height='"+y+"'></td>";
+                    }
+               }
+                html_text+="</tr>";
+            }
+                html_text+="</tbody>"; 
+                html_text+="</table>";
+                html_text+="</body></html>"; 
+         return 1;
+        }
+    </script>
+    <noscript></noscript>
+</html>
