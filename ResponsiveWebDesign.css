@@ -1,0 +1,88 @@
+body{
+        counter-reset: c;
+    }
+b::before{
+     counter-increment: c;
+     content: counter(c);
+ } 
+.glyphicon-star {
+   color: yellow;
+}
+.yellow.glyphicon-star {
+  text-shadow:0 0 1px  black,0 0 1px  black,0 0 1px  black,0 0 1px  black ;
+    text-shadow:0 0  black,0 0  black,0 0  black,0 0  black,0 0  black;
+}
+.panel-heading{
+    color: #E7E7E7;
+}
+.container-fluid{
+    background-color: #EAEAEA;
+}
+.p{
+    padding: 5px;
+}
+.pb{
+    padding-bottom: 15px;
+}
+.pt{
+    padding-top: 15px;
+}
+.subhead{
+    color: darkgrey;
+}
+
+.animatehere.ng-hide-add{ 
+  -webkit-animation:0.5s lightSpeedOut ease; 
+  animation:0.5s lightSpeedOut ease; 
+}
+
+@-webkit-keyframes lightSpeedOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: translate3d(100%, 0, 0) skewX(30deg);
+    transform: translate3d(100%, 0, 0) skewX(30deg);
+    opacity: 0;
+  }
+}
+
+@keyframes lightSpeedOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: translate3d(100%, 0, 0) skewX(30deg);
+    -ms-transform: translate3d(100%, 0, 0) skewX(30deg);
+    transform: translate3d(100%, 0, 0) skewX(30deg);
+    opacity: 0;
+  }
+}
+
+img.img-responsive{
+    display: table;
+    max-width: 100%;
+}
+li{
+    text-align: center;
+    font-size: 16px;
+}
+
+.active{
+     background-color: #296192 !important;
+    color: white !important;
+}
+
+.btn-default.cl{
+    background-color: #EFEFEF !important;
+    color: #296192 !important;
+    border-color: #296192 !important;
+}
+
+.fs{
+    font-size: 16px;
+}
+
+
